@@ -16,6 +16,7 @@ id 조건
     -> 제거 후 마침표가 끝에 위치한다면 마침표 문자를 제거
 7. 2자 이하라면 마지막 문자를 길이가 3이 될때까지 반복해서 끝에 붙임
 */
+/*
 function solution(newId) {
   let answer = "";
   for (let i = 0; i < newId.length; i++) {
@@ -40,4 +41,36 @@ function solution(newId) {
   }
   return answer;
 }
+*/
+function solution(newId) {
+  let answer = "";
+  for (let i = 0; i < newId.length; i++) {
+    let v = newId[i].toLowerCase(); //1: 소문자 치환
+    if ("0123456789abcdefghijklmnopqrstuvwxyz.-_".indexOf(v) === -1) continue;
+    //2: 알파벳 소문자, 숫자, .-_ 아닌 특수문자를 제외하기
+    if (v === "." && answer[answer.length - 1] === ".") continue;
+    //3: '.' 연속되면 하나로 합치기
+    answer += v; //2, 3 단계 통과한 v 만 answer에 들어감
+    //여기까지 answer = ".bat.y.abcdefghijklm"
+  }
+  if (answer[0] === ".") answer = answer.slice(1);
+  //4: 앞에 " . "이 있을때, 제거하기
+
+  answer = answer.slice(0, 15); //6: 길이가 15보다 클 때, 자르기
+
+  if (answer[answer.length - 1] === ".") {
+    answer = answer.slice(0, answer.length - 1);
+    //4: 뒤에 " . "이 있을때, 제거하기
+  }
+  //5: 빈 배열이라면 "a" 대입하기
+  if (!answer) answer = "a";
+
+  //7: answer 길이가 3 이하라면 answer의 마지막 문자를 덧붙이기
+  while (answer.length < 3) {
+    answer += answer[answer.length - 1];
+  }
+
+  return answer;
+}
+
 console.log(solution("...!@BaT#*..y.abcdefghijklm"));
